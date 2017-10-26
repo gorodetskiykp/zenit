@@ -1,0 +1,38 @@
+<table data-toggle="table"
+       id="table"
+       data-search="true"
+>
+<thead>
+<tr>
+	<th data-sortable="true" data-sort-name="shortname">Краткое<br />наименование</th>
+	<th data-field="shortname" data-visible="false"></th>
+    <th data-field="fullname" data-sortable="true">Полное наименование</th>
+    <th data-field="project" data-sortable="true">Проект</th>
+    <th data-field="sys_type" data-sortable="true">Тип</th>
+    <th data-field="sys_function" data-sortable="true">Назначение</th>
+    <th data-field="prom_date" data-sortable="true">Дата ввода<br />в промышленную<br />эксплуатацию</th>
+    <th data-field="info_category" data-sortable="true">Категория<br />обрабатываемой<br />информации</th>
+
+    <th data-field="developer" data-sortable="true">Разработчик</th>
+</tr>
+</thead>
+<tbody>
+{% for system in systems %}
+<tr>
+    <td><a href="{% url 'isystems:detail' system.id %}">{{ system.short_name }}</a></td>
+    <td>{{ system.short_name }}</td>
+    <td>{{ system.full_name }}</td>
+    <td>{{ system.project.title }}</td>
+    <td>{{ system.system_type }}</td>
+    <td>{{ system.system_function }}</td>
+    <td>{% for status in system.statuses.all %}
+    {{ status.status_date }}
+    {% endfor %}
+    </td>
+    <td>{{ system.info_category|join:', ' }}</td>
+    <td>{% if system.developer %}<a href="{% url 'organizations:detail' system.developer.id %}">{{ system.developer }}</a>{% endif %}</td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>

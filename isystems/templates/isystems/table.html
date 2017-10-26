@@ -1,0 +1,31 @@
+<table data-toggle="table"
+       id="table"
+       data-search="true"
+>
+<thead>
+<tr>
+    <th data-field="shortname" data-sortable="true">Название</th>
+    <th data-field="fullname" data-sortable="true">Полное название</th>
+    <th data-field="developer" data-sortable="true">Разработчик</th>
+</tr>
+</thead>
+<tbody>
+{% for system in systems %}
+<tr>
+    <td>
+        {% if request.user.is_superuser %}
+        <a href="/admin/isystems/isystem/{{ system.id }}/change/" target="_blank"
+           class="glyphicon glyphicon-eye-open" aria-hidden="true"></a>&nbsp;
+        {% endif %}
+        <a href="{% url 'isystems:detail' system.id %}">{{ system.short_name }}</a></td>
+    <td>{{ system.full_name }}</td>
+    <td>
+        {% if system.developer %}
+        <a href="{% url 'organizations:detail' system.developer.id %}">{{ system.developer }}</a>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>

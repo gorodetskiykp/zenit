@@ -1,0 +1,29 @@
+
+
+<table data-toggle="table"
+       id="table"
+       data-search="true"
+>
+<thead>
+<tr>
+<th>Название</th>
+<th data-sortable="true">Система</th>
+<th data-sortable="true">Дата начала</th>
+<th data-sortable="true">Дата завершения</th>
+<th>Договор</th>
+
+</tr>
+</thead>
+<tbody>
+{% for chart in schedules %}
+<tr>
+    <td><a href="{% url 'schedule_charts:detail' chart.id %}">{{ chart.title }}</a></td>
+    <td>{% if chart.system %}<a href="{% url 'isystems:detail' chart.system.id %}">{{ chart.system }}</a>{% endif %}</td>
+    <td>{{ chart.date_begin|date:"d.m.Y D" }}</td>
+    <td>{{ chart.date_end|date:"d.m.Y D" }}</td>
+    <td>{% if chart.contract %}<a href="{% url 'contracts:detail' chart.contract.id %}">{{ chart.contract.sed_number }}{% if chart.contract.reg_date %} от {{ chart.contract.reg_date }}{% endif %}</a>{% endif %}</td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>

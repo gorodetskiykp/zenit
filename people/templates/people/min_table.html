@@ -1,0 +1,26 @@
+<table data-toggle="table"
+       id="table"
+       data-search="false"
+>
+<thead>
+<tr>
+    <th data-field="fio" data-sortable="true">Имя</th>
+    <th data-field="post">Должность</th>
+    <th data-field="systems" data-sortable="true">Системы</th>
+</tr>
+</thead>
+<tbody>
+{% for man in organization.org_roles.all %}
+<tr>
+    <td><a href="{% url 'people:detail' man.people.id %}">{{ man.people.fio }}</a></td>
+    <td>{{ man.post }}</td>
+    <td>
+        {% for system in man.sys_roles.all %}
+            <a href="{% url 'isystems:detail' system.system.id %}" title="{{ system.system.full_name }}">{{ system.system.short_name }}</a><br />
+        {% endfor %}
+    </td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>

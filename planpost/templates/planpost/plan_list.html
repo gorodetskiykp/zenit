@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Планы поставок{% endblock %}
+
+{% block content %}
+
+<h2>Планы поставок</h2>
+<ul>
+    {% for plan in plans %}
+        <li>
+          <a href="{% url 'planpost:detail' plan.id %}">{{ plan.year }}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

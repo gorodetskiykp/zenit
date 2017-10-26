@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Организации{% endblock %}
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/organizations.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<h2>Организации
+{% if request.user.is_superuser %}
+<button type="button" class="btn btn-default btn-sm js-create-organization" data-url="{% url 'organizations:organization_create' %}">
+  <span class="glyphicon glyphicon-plus"></span>
+</button>
+{% endif %}
+</h2>
+
+<table data-toggle="table"
+       id="organization-table"
+       data-search="true"
+>
+<thead>
+<tr>
+<th data-field="shortname" data-sortable="true">Название</th>
+<th data-field="fullname" data-sortable="true">Полное название</th>
+<th data-field="systems" data-sortable="false">Emails</th>
+{% if request.user.is_superuser %}
+<th data-field="edit" data-sortable="false"></th>
+{% endif %}
+</tr>
+</thead>
+
+<tbody>
+{% include "organizations/table.html" %}
+</tbody>
+
+</table>
+
+<div class="modal fade" id="modal-organization">
+<div class="modal-dialog">
+  <div class="modal-content">
+  </div>
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+<table data-toggle="table"
+       id="table"
+       data-search="true"
+       data-striped="true"
+       data-pagination="true"
+       data-page-size="20"
+       data-page-list=[20,40]
+       data-show-pagination-switch="true"
+       data-sort-name="date_begin"
+       class="table-condensed"
+>
+<thead>
+<tr>
+<th data-field="num" data-sortable="true">№</th>
+<th>Этап</th>
+<th data-sortable="true" data-sort-name="date_begin">Дата начала</th>
+<th data-field="date_begin" data-visible="false"></th>
+<th data-sortable="true" data-sort-name="date_end">Дата завершения</th>
+<th data-field="date_end" data-visible="false"></th>
+<th>Исполнители</th>
+<th>Результат этапа</th>
+
+</tr>
+</thead>
+<tbody>
+{% for step in steps %}
+<tr {% if step.done %}class="success"{% endif %}>
+    <td>{% if step.parent %}{{ step.parent.step_num }}.{% endif %}{{ step.step_num }}</td>
+    <td>{{ step.title }}</td>
+    <td>{{ step.date_begin|date:"d.m.Y D" }}</td>
+    <td>{{ step.date_begin|date:"Ymd" }}</td>
+    <td>{{ step.date_end|date:"d.m.Y D" }}</td>
+    <td>{{ step.date_end|date:"Ymd" }}</td>
+    <td>
+    {% for organization in step.org_executors.all %}
+        <div><a href="{% url 'organizations:detail' organization.id %}" title="{{ organization.full_name }}">{{ organization.short_name }}</a></div>
+    {% endfor %}    
+    {% for man in step.man_executors.all %}
+        <div><a href="{% url 'people:detail' man.id %}">{{ man.fio }}</a></div>
+    {% endfor %}    
+    </td>
+    <td>{{ step.report }}</td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+
+

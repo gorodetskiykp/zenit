@@ -1,0 +1,25 @@
+<table data-toggle="table"
+       id="table"
+       data-search="false"
+>
+<thead>
+<tr>
+    <th data-field="fio" data-sortable="true">Имя</th>
+    <th data-field="post">Должность</th>
+    <th data-field="organization" data-sortable="true">Организация</th>
+    <th data-field="role" data-sortable="true">Роль</th>
+</tr>
+</thead>
+<tbody>
+
+{% for role in system.sys_roles.all %}
+<tr>
+    <td><a href="{% url 'people:detail' role.people.people.id %}">{{ role.people.people.fio }}</a></td>
+    <td>{{ role.people.post }}</td>
+    <td><a href="{% url 'organizations:detail' role.people.organization.id %}" title="{{ role.people.organization.full_name }}">{{ role.people.organization.short_name }}</a></td>
+    <td>{{ role.role }}</td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>

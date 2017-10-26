@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Системы{% endblock %}
+
+{% block content %}
+<div class="page-header">
+
+<div class="row">
+    <div class="col-md-11">
+        <h2>Справочник аббревиатур наименований локальных ИС</h2>
+    </div>
+    <div class="col-md-1">
+        <h2><a href="{% url 'isystems:is_report_shorts' %}?_export=xlsx"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span></a></h2>
+    </div>
+</div></div>
+<div class="row">
+    <div class="col-md-12">
+    <div class="well">
+        <li>По письму ДИТ ПАО «Транснефть» <a href="https://sed.dmn.tn.corp/webtop/component/properties?objectId=090004b38482bb75" target="_blank">№ 21518 от 13.10.2017</a></li>
+        <li><a href="\\df.ak.tn.corp\S\SHR\ДИТ\Реестр информационных систем\Транснефть - Дальний Восток">Список на FTP ДИТ</a></li>
+        <li><a href="\\df.ak.tn.corp\S\SHR\ДИТ\Реестр информационных систем">Список КИС на FTP ДИТ (файл в корне)</a></li>
+    </div>
+    </div>
+</div>
+
+{% include "isystems/table_shorts.html" %}
+
+{% endblock %}
+

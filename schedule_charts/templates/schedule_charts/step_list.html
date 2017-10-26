@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Этапы{% endblock %}
+
+{% block content %}
+
+<h2>Этапы</h2>
+
+{% load mptt_tags %}
+<ul>
+    {% recursetree steps %}
+        <li>
+            {{ node.title }}
+            {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
+
+{% include "schedule_charts/all_steps_table.html" %}
+
+{% endblock %}

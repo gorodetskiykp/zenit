@@ -1,0 +1,60 @@
+<table data-toggle="table"
+       id="table"
+       data-search="true"
+       data-striped="true"
+       data-pagination="true"
+       data-page-size="20"
+       data-page-list=[20,40]
+       data-show-pagination-switch="true"
+
+
+>
+<thead>
+<tr>
+    <th data-sortable="true" data-sort-name="fio">Имя</th>
+    <th data-field="fio" data-visible="false"></th>
+    <th data-sortable="true" data-sort-name="organizations">Организации</th>
+    <th data-field="organizations" data-visible="false"></th>
+    <th data-sortable="true" data-sort-name="systems">Системы</th>
+    <th data-field="systems" data-visible="false"></th>
+</tr>
+</thead>
+<tbody>
+{% for man in people %}
+<tr>
+    <td>
+        {% if request.user.is_superuser %}
+        <a href="/admin/people/people/{{ man.id }}/change/" target="_blank"
+           class="glyphicon glyphicon-eye-open" aria-hidden="true"></a>&nbsp;
+        {% endif %}
+        <a href="{% url 'people:detail' man.id %}">{{ man.fio }}</a></td>
+    <td>{{ man.fio }}</td>
+    <td>
+        {% for organization in man.org_roles.all %}
+            <a href="{% url 'organizations:detail' organization.organization.id %}" title="{{ organization.organization.full_name }}">{{ organization.organization.short_name }}</a><br />
+        {% endfor %}
+    </td>
+    <td>
+        {% for organization in man.org_roles.all %}
+            {{ organization.organization.short_name }}
+        {% endfor %}
+    </td>
+    <td>
+        {% for people in man.org_roles.all %}
+            {% for system in people.sys_roles.all %}
+                <a href="{% url 'isystems:detail' system.system.id %}" title="{{ system.system.full_name }}">{{ system.system.short_name }}</a><br />
+            {% endfor %}
+        {% endfor %}
+    </td>
+    <td>
+        {% for people in man.org_roles.all %}
+            {% for system in people.sys_roles.all %}
+                {{ system.system.short_name }}<br />
+            {% endfor %}
+        {% endfor %}
+    </td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}{{ system.short_name }}{% endblock %}
+
+{% block content %}
+
+<h2>{{ system.short_name }}</h2>
+  <div>
+    {% if request.user.is_superuser %}
+      <a href="/admin/isystems/isystem/{{ system.id }}/change/" target="_blank"
+         class="glyphicon glyphicon-eye-open" aria-hidden="true"></a>&nbsp;
+    {% endif %}
+    {{ system.full_name }}
+  </div>
+  <div>
+    Тип: <u>{{ system.system_type }}</u>
+  </div>
+  {% if system.developer %}
+  <div>Разработчик: <a href="{% url 'organizations:detail' system.developer.id %}">{{ system.developer }}</a></div>
+  {% endif %}
+
+  {% if system.description %}
+  <p>
+  <div class="well">{{ system.description|linebreaksbr }}</div>
+  </p>
+  {% endif %}
+
+  {% if system.statuses.all %}
+  <h3>Статусы системы</h3>
+  <div class="well">
+    {% for status in system.statuses.all %}
+      <div><a href="{{ status.link_eatd }}" target="_blank">{{ status.status_date }}</a> {{ status.status }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if system.contracts.all %}
+  <h3>Договоры</h3>
+  <div class="well">
+    {% for contract in system.contracts.all %}
+      <div><a href="{% url 'contracts:detail' contract.id %}">{{ contract.sed_number }} от {{ contract.reg_date }}</a> {{ contract.title }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <p>
+  {% if system.sys_roles.all %}
+  <div class="panel-group" id="accordionCont" role="tablist" aria-multiselectable="true">
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingCont">
+          <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordionCont" href="#collapseCont" aria-expanded="true" aria-controls="collapseCont">
+              Контакты
+            </a> <span class="badge">{{ system.sys_roles.count }}</span>
+          </h4>
+        </div>
+        <div id="collapseCont" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingCont">
+
+            {% include "isystems/people_table.html" %}
+
+        </div>
+      </div>
+    </div>
+   {% endif %}
+   </p>
+
+  {% if system.administrator or system.reserve_administrator or system.contract_administrator or system.isecurity_administrator %}
+  <p>
+    <div class="panel-group" id="accordionAdm" role="tablist" aria-multiselectable="true">
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingAdm">
+          <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordionAdm" href="#collapseAdm" aria-expanded="true" aria-controls="collapseAdm">
+              Администраторы
+            </a>
+          </h4>
+        </div>
+        <div id="collapseAdm" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAdm">
+
+            {% include "isystems/admin_table.html" %}
+
+        </div>
+      </div>
+    </div>
+  </p>
+  {% endif %}
+
+{% if system.support_info %}
+  <div class="well"><u>Информация о технической поддержке:</u><br />{{ system.support_info|linebreaksbr }}</a></div>
+{% endif %}
+
+{% if system.lic_info %}
+  <div class="well"><u>Информация о лицензировании:</u><br />{{ system.lic_info|linebreaksbr  }}</a></div>
+{% endif %}
+
+{% endblock %}

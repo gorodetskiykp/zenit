@@ -1,0 +1,20 @@
+<table data-toggle="table"
+       id="table"
+       data-search="false"
+>
+<thead>
+<tr>
+    <th data-field="shortname" data-sortable="true">Название</th>
+    <th data-field="fullname" data-sortable="true">Полное название</th>
+</tr>
+</thead>
+<tbody>
+{% for system in systems %}
+<tr>
+    <td><a href="{% url 'isystems:detail' system.id %}">{{ system.short_name }}</a></td>
+    <td>{{ system.full_name }}</td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>

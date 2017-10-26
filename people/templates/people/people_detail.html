@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}{{ people.fio }}{% endblock %}
+
+{% block content %}
+
+<h2>{{ people.fio }}</h2>
+    {% if request.user.is_superuser %}
+    <a href="/admin/people/people/{{ people.id }}/change/" target="_blank"
+       class="glyphicon glyphicon-eye-open" aria-hidden="true"></a>
+    {% endif %}
+<p>
+  {% for post in people.org_roles.all %}
+    <div>
+    {{ post.post }} <a href="{% url 'organizations:detail' post.organization.id %}">{{ post.organization }}</a>
+        <ul class="list-group">
+            {% for role in post.sys_roles.all %}
+                <li class="list-group-item"><a href="{% url 'isystems:detail' role.system.id %}">{{ role.system }}</a>. {{ role.role }}</li>
+            {% endfor %}
+        </ul>
+    </div> 
+  {% endfor %}
+</p>
+
+<p>
+  {% for email in people.emails.all %}
+    <div><a href="mailto:{{ email.email }}">{{ email.email }}</a></div>
+  {% endfor %}
+</p>
+
+<p>
+  {% for phone in people.phones.all %}
+    <div>{{ phone.phone_type }}: {{ phone.phone_number }}</div>
+  {% endfor %}
+</p>
+
+<p>
+  {% for system in people.sys_roles.all %}
+    <div><a href="{% url 'organizations:detail' post.organization.id %}">{{ system.system.id }}</a> {{ system.role }}</div>
+  {% endfor %}
+</p>
+
+{% if people.is_system_admin %}
+<p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Администратор</th>
+        <th>Резервный администратор</th>
+        <th>Куратор бюджета, договоров</th>
+        <th>Куратор информационной безопасности</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            {% for post in people.org_roles.all %}
+                {% for system in post.administrator_systems.all %}
+                    <div><a href="{% url 'isystems:detail' system.id %}" title="{{ system.full_name }}">{{ system.short_name }}</a></div>
+                {% endfor %}
+            {% endfor%}
+        </td>
+        <td>
+            {% for post in people.org_roles.all %}
+                {% for system in post.reserve_administrator_systems.all %}
+                    <div><a href="{% url 'isystems:detail' system.id %}" title="{{ system.full_name }}">{{ system.short_name }}</a></div>
+                {% endfor %}
+            {% endfor%}
+        </td>
+        <td>
+            {% for post in people.org_roles.all %}
+                {% for system in post.contract_administrator_systems.all %}
+                    <div><a href="{% url 'isystems:detail' system.id %}" title="{{ system.full_name }}">{{ system.short_name }}</a></div>
+                {% endfor %}
+            {% endfor%}
+        </td>
+        <td>
+            {% for post in people.org_roles.all %}
+                {% for system in post.isecurity_administrator_systems.all %}
+                    <div><a href="{% url 'isystems:detail' system.id %}" title="{{ system.full_name }}">{{ system.short_name }}</a></div>
+                {% endfor %}
+            {% endfor%}
+        </td>
+    </tr>
+    </tbody>
+</table>
+</p>
+{% endif %}
+
+{% if people.info %}
+  <div class="well"><u>Дополнительная информация:</u><br />{{ people.info|linebreaksbr  }}</a></div>
+{% endif %}
+
+{% endblock %}

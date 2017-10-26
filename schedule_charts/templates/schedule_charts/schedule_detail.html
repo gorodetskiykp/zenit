@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ schedule.system }}{% endblock %}
+
+{% block content %}
+
+<h3>{{ schedule.title }}</h3>
+
+{% include "schedule_charts/steps_table.html" %}
+
+{% endblock %}

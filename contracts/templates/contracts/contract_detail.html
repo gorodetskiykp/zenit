@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ contract.sed_number }}{% endblock %}
+
+{% block content %}
+
+<h2>{{ contract.sed_number }}</h2>
+<p>
+  <div>Дата регистрации: {{ contract.reg_date }}</div>
+  <div>Контрагент: <a href="{% url 'organizations:detail' contract.contractor.id %}">{{ contract.contractor }}</a></div>
+  <div>Содержание: {{ contract.title }}</div>
+  <div>Система: <a href="{% url 'isystems:detail' contract.system.id %}">{{ contract.system }}</a></div>
+</p>
+
+{% endblock %}

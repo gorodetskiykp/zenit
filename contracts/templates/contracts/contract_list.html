@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Договоры{% endblock %}
+
+{% block content %}
+
+<h2>Договоры</h2>
+<ul>
+    {% for contract in contracts %}
+        <li><a href="">{{ contract.sed_number }} {{ contract.title }}. {{ contract.contractor.short_name }}</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

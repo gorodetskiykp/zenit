@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Что нового{% endblock %}
+
+{% block content %}
+
+<h2>Что нового</h2>
+
+{% for release in releases %}
+
+<p><b>{{ release.release_date_time }}</b><br />{{ release.whats_new_message }}</p>
+
+{% endfor %}
+
+{% endblock %}

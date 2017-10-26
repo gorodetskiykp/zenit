@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Системы{% endblock %}
+
+{% block content %}
+<div class="page-header">
+
+<div class="row">
+    <div class="col-md-11">
+        <h2>Перечень ИС для проверок ИБ (<a href="http://oif.niitnn.tn.corp/weboif/ND.aspx?NDid=45954" target="_blank">ОР-35.240.50-КТН-071-17)</a></h2>
+    </div>
+    <div class="col-md-1">
+        <h2><a href="{% url 'isystems:is_report_71-17' %}?_export=xlsx"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span></a></h2>
+    </div>
+</div></div>
+
+{% include "isystems/table_7117.html" %}
+
+{% endblock %}
+

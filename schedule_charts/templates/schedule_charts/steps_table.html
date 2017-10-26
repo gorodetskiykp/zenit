@@ -1,0 +1,55 @@
+{% load mptt_tags %}
+
+<table data-toggle="table"
+       id="table"
+       data-search="true"
+       data-striped="true"
+       data-pagination="true"
+       data-page-size="20"
+       data-page-list=[20,40]
+       data-show-pagination-switch="true"
+       data-sort-name="num"
+       class="table-condensed"
+>
+<thead>
+<tr>
+<th data-field="num" data-sortable="true">№</th>
+<th>Этап</th>
+<th data-sortable="true" data-sort-name="date_begin">Дата начала</th>
+<th data-field="date_begin" data-visible="false"></th>
+<th data-sortable="true" data-sort-name="date_end">Дата завершения</th>
+<th data-field="date_end" data-visible="false"></th>
+<th>Исполнители</th>
+<th>Результат этапа</th>
+
+</tr>
+</thead>
+<tbody>
+{% recursetree schedule.steps.all %}
+<tr {% if node.done %}class="success"{% endif %}>
+    <td>{% for parent_node in node.get_ancestors %}{{ parent_node.step_num }}.{% endfor %}{{ node.step_num }}</td>
+    <td>{{ node.title }}</td>
+    <td>{{ node.date_begin|date:"d.m.Y D" }}</td>
+    <td>{{ node.date_begin|date:"Ymd" }}</td>
+    <td>{{ node.date_end|date:"d.m.Y D" }}</td>
+    <td>{{ node.date_end|date:"Ymd" }}</td>
+    <td>
+    {% for organization in node.org_executors.all %}
+        <div><a href="{% url 'organizations:detail' organization.id %}" title="{{ organization.full_name }}">{{ organization.short_name }}</a></div>
+    {% endfor %}    
+    {% for man in node.man_executors.all %}
+        <div><a href="{% url 'people:detail' man.id %}">{{ man.fio }}</a></div>
+    {% endfor %}    
+    </td>
+    <td>{{ node.report }}</td>
+    {% if not node.is_leaf_node %}
+            {{ children }}
+    {% endif %}
+
+</tr>
+{% endrecursetree %}
+
+</tbody>
+</table>
+
+

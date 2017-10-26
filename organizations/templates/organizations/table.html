@@ -1,0 +1,19 @@
+{% for organization in organizations %}
+<tr>
+    <td>
+    <a href="{% url 'organizations:detail' organization.id %}">{{ organization.short_name }}</a>
+    </td>
+    <td>{{ organization.full_name }}</td>
+    <td>{{ organization.emails }}</td>  
+    {% if request.user.is_superuser %}
+    <td>
+      <button type="button"
+              class="btn btn-default btn-sm js-update-organization"
+              data-url="{% url 'organizations:organization_update' organization.id %}">
+        <span class="glyphicon glyphicon-edit"></span>
+      </button>
+     </td>
+    {% endif %}
+</tr>
+{% endfor %}
+

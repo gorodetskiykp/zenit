@@ -1,0 +1,55 @@
+<table data-toggle="table"
+       id="table"
+       data-search="false"
+>
+<thead>
+<tr>
+    <th data-field="role" data-sortable="false">Роль</th>
+    <th data-field="fio" data-sortable="false">Имя</th>
+</tr>
+</thead>
+<tbody>
+
+{% if system.administrator %}
+<tr>
+    <td>Администратор</td>
+    <td>
+        <a href="{% url 'people:detail' system.administrator.people.id %}">
+        {{ system.administrator.people.fio }}
+        </a>
+    </td>
+</tr>
+{% endif %}
+{% if system.reserve_administrator %}
+<tr>
+    <td>Резервный администратор</td>
+    <td>
+        <a href="{% url 'people:detail' system.reserve_administrator.people.id %}">
+        {{ system.reserve_administrator.people.fio }}
+        </a>
+    </td>
+</tr>
+{% endif %}
+{% if system.contract_administrator %}
+<tr>
+    <td>Куратор бюджета, договоров</td>
+    <td>
+        <a href="{% url 'people:detail' system.contract_administrator.people.id %}">
+            {{ system.contract_administrator.people.fio }}
+        </a>
+    </td>
+</tr>
+{% endif %}
+{% if system.isecurity_administrator %}
+<tr>
+    <td>Куратор информационной безопасности</td>
+    <td>
+        <a href="{% url 'people:detail' system.isecurity_administrator.people.id %}">
+        {{ system.isecurity_administrator.people.fio }}
+        </a>
+    </td>
+</tr>
+{% endif %}
+
+</tbody>
+</table>
