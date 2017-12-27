@@ -61,8 +61,22 @@ class Department(Model):
     def __str__(self):
         return self.short_name
 
-
     class Meta:
         ordering = ['short_name', 'full_name']
         verbose_name = 'Отдел'
         verbose_name_plural = 'Отделы'
+        
+
+class ResponsibilityCenter(Model):
+    short_name = CF(max_length=50, verbose_name='Краткое название', unique=True)
+    full_name = CF(max_length=200, verbose_name='Полное название', unique=True)
+
+    def __str__(self):
+        return self.short_name
+
+    class Meta:
+        ordering = ['short_name', 'full_name']
+        verbose_name = 'Центр ответственности'
+        verbose_name_plural = 'Центр ответственности'
+
+

@@ -9,8 +9,14 @@ class StatusInline(admin.TabularInline):
 
 @admin.register(iSystem)
 class iSystemAdmin(admin.ModelAdmin):
-    list_display = ('short_name', 'abbreviation', 'full_name')
-    list_editable = ('abbreviation', )
+    list_display = (
+        'short_name', 
+        'abbreviation', 
+        'full_name', 
+        'shadow', 
+        'responsibility_center'
+    )
+    list_editable = ('shadow', 'responsibility_center')
     list_filter = ('system_type',)
     # list_filter = ('short_name', 'developer', )
     ordering = ('short_name',)

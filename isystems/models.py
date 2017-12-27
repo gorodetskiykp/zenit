@@ -4,6 +4,7 @@ from django.db import models
 
 from django.db.models import (
     Model,
+    BooleanField as BF,
     CharField as CF,
     DateField as DF,
     ForeignKey as FK,
@@ -78,17 +79,17 @@ class iSystem(models.Model):
         ('ЮО', 'Юридический отдел'),
     )
 
-    short_name = CF('Краткое название', max_length=50, default='', unique=True, null=False, blank=False)
+    short_name = CF('Краткое название', max_length=100, default='', unique=True, null=False, blank=False)
     full_name = CF('Полное название', max_length=500, default='', null=True, blank=True)
     abbreviation = CF('Аббревиатура', max_length=20, null=False, blank=False, unique=True, help_text='Латинскими прописными буквами, допускается символ подчеркивания')
-    project = models.ForeignKey('Project', verbose_name='Проект', default='', blank=True, null=True,
+    project = FK('Project', verbose_name='Проект', default='', blank=True, null=True,
                                 related_name='project_systems')
-    system_type = models.CharField('Тип системы', max_length=20, choices=SYSTEM_TYPES, default='Локальная', null=True,
+    system_type = CF('Тип системы', max_length=20, choices=SYSTEM_TYPES, default='Локальная', null=True,
                                    blank=True)
-    system_function = models.CharField('Назначение системы', max_length=50, choices=SYSTEM_FUNCTIONS, default='',
+    system_function = CF('Назначение системы', max_length=50, choices=SYSTEM_FUNCTIONS, default='',
                                        null=True, blank=True)
 
-    developer = models.ForeignKey('organizations.Organization', verbose_name='Разработчик', default='', blank=True,
+    developer = FK('organizations.Organization', verbose_name='Разработчик', default='', blank=True,
                                   null=True, related_name='systems')
     maintenance = models.ForeignKey('organizations.Organization', verbose_name='Техническое сопровождение', default='', blank=True,
                                   null=True, related_name='ment_systems')
@@ -111,7 +112,7 @@ class iSystem(models.Model):
                                               default='', null=True,
                                               blank=True, related_name='isecurity_administrator_systems')
 
-    critical = models.BooleanField('Критичность для функционирования организации', default=False)
+    critical = BF('Критичность для функционирования организации', default=False)
     functional_customer = MultiSelectField('Функциональные заказчики', max_length=20, choices=FUNCTIONAL_CUSTOMER,
                                      default='', null=True,
                                      blank=True)
@@ -120,6 +121,9 @@ class iSystem(models.Model):
     recovery_order = TF('Порядок восстановления', blank=True, null=True)
     test_procedure = TF('Порядок тестирования', blank=True, null=True)
 
+    shadow = BF('Теневая система', default=False, help_text='ИТ-устройства, ПО и сервисы, которые присутствуют в организации, но не обслуживаются ИТ-отделом.')
+    responsibility_center = FK('organizations.ResponsibilityCenter', verbose_name='Ответственный за сопровождение', default='', blank=True,
+                              null=True)
 
     def __str__(self):
         return self.short_name

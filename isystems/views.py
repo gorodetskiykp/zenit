@@ -16,6 +16,13 @@ class SystemList(ListView):
     context_object_name = 'systems'
 
 
+class SystemListDetail(ListView):
+    model = iSystem
+    ordering = ('responsibility_center', 'short_name')
+    context_object_name = 'systems'
+    template_name = 'isystems/isystem_list_detail.html'
+
+
 class SystemInfo(DetailView):
     model = iSystem
     context_object_name = 'system'

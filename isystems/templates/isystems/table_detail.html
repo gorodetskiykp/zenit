@@ -1,0 +1,34 @@
+{% regroup systems by responsibility_center as system_list %}
+
+{% for system in system_list %}
+<h2>{{ system.grouper }}</h2>
+<table data-toggle="table"
+       id="table"
+       data-search="true"
+>
+<thead>
+<tr>
+    <th data-field="shortname" data-sortable="true">Название</th>
+    <th data-field="fullname">Полное название</th>
+    <th data-field="administrator">Администратор</th>
+    <th data-field="reserve_administrator">Резервный администратор</th>
+    <th data-field="contract_administrator">Ответственный<br />за договорную работу,<br />бюджет</th>
+    <th data-field="isecurity_administrator">Ответственный<br />за информационную<br />безопасность</th>
+</tr>
+</thead>
+<tbody>
+{% for system in system.list %}
+<tr>
+    <td>{{ system.short_name }}</td>
+    <td>{{ system.full_name }}</td>
+    <td>{{ system.administrator.people.short_fio }}</td>
+    <td>{{ system.reserve_administrator.people.short_fio }}</td>
+    <td>{{ system.contract_administrator.people.short_fio }}</td>
+    <td>{{ system.isecurity_administrator.people.short_fio }}</td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+
+{% endfor %}

@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Organization, OrgAddress, AddressType, Department
+from .models import (
+    AddressType, 
+    Department, 
+    OrgAddress, 
+    Organization, 
+    ResponsibilityCenter,
+    )
 
 from django.contrib.admin.models import LogEntry
  
@@ -27,6 +33,9 @@ class OrganizationAdmin(admin.ModelAdmin):
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ('short_name', 'full_name')
+    
+
+admin.site.register(ResponsibilityCenter)
 
 '''
 admin.site.register(Organization, OrganizationAdmin)
